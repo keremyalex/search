@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: theme(),
       debugShowCheckedModeBanner: false,
-      title: 'Material App',
+      title: 'Search App',
       initialRoute: 'FiltroPage',
       routes: routes,
     );

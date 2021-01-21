@@ -4,7 +4,7 @@ import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
 import 'package:search_app/constant.dart';
 import 'package:search_app/database/db_manager.dart';
 import 'package:search_app/models/persona.dart';
-import 'package:search_app/pages/helpers/mostrar_alerta.dart';
+import 'package:search_app/theme.dart';
 
 class FiltroPage extends StatefulWidget {
   @override
@@ -13,16 +13,6 @@ class FiltroPage extends StatefulWidget {
 
 class _FiltroPageState extends State<FiltroPage> {
   final DbManager dbmanager = new DbManager();
-
-  // List<Persona> getAll() {
-  //   List<Persona> listPerson;
-  //   dbmanager.getTodasPersonas().then((value) {
-  //     if (value != null) value.forEach((item) => listPerson.add(item));
-  //   });
-
-  //   print(listPerson[0]);
-  //   return listPerson;
-  // }
 
   int tag = 0;
   int tag1 = 0;
@@ -186,7 +176,7 @@ class _FiltroPageState extends State<FiltroPage> {
             children: [
               Row(
                 children: [
-                  Expanded(
+                  Flexible(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
@@ -211,15 +201,14 @@ class _FiltroPageState extends State<FiltroPage> {
                   IconButton(
                       icon: Icon(
                         Icons.filter_list,
-                        color: Colors.blue[800],
+                        //color: Colors.blue[800],
+                        color: theme().primaryColor,
                       ),
                       onPressed: () {
                         getAll();
                         mostrarAlerta(
                             context, 'Búsqueda:', 'Elegir datos', personas);
                         //getAll();
-                        //print(personas[1].nombre);
-                        //print('Icon');
                       })
                 ],
               ),
@@ -246,7 +235,8 @@ class _FiltroPageState extends State<FiltroPage> {
                                   // boxShadow: [
                                   //   BoxShadow(
                                   //     color: hexColor('#d1cbad'),
-                                  //     offset: Offset(5, 10)
+                                  //     offset: Offset(1, 1),
+                                  //     blurRadius: 5
                                   //   )
                                   // ]
                                 ),
@@ -290,22 +280,10 @@ class _FiltroPageState extends State<FiltroPage> {
                                         size: 20,
                                         isIndicator: false,
                                         allowHalfRating: true,
-                                        // onRatingCallback: (double value,ValueNotifier<bool> isIndicator){
-                                        //               print('Number of stars-->  $value');
-                                        //               //change the isIndicator from false  to true ,the       RatingBar cannot support touch event;
-                                        //               isIndicator.value=true;
-                                        //   },
                                         color: Colors.amber,
                                       )
                                     ],
                                   ),
-                                  // trailing: Padding(
-                                  //   padding: EdgeInsets.only(top: 10),
-                                  //   child: Icon(
-                                  //     Icons.keyboard_arrow_right,
-                                  //     color: Colors.black,
-                                  //   ),
-                                  // ),
                                 ),
                               ),
                             )),
