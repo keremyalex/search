@@ -1,6 +1,5 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_rating_bar/flutter_simple_rating_bar.dart';
 import 'package:search_app/constant.dart';
 import 'package:search_app/database/db_manager.dart';
 import 'package:search_app/models/persona.dart';
@@ -44,20 +43,20 @@ class _FiltroPageState extends State<FiltroPage> {
     });
   }
 
-    List<String> profesiones = [];
-    List<String> estrellas = ['1', '2', '3', '4', '5'];
-    List<String> turno = ['mañana', 'tarde', 'noche'];
+  List<String> profesiones = [];
+  List<String> estrellas = ['1', '2', '3', '4', '5'];
+  List<String> turno = ['mañana', 'tarde', 'noche'];
 
   mostrarAlerta(BuildContext context, String titulo, String subtitulo,
       List<Persona> per) {
     // single choice value
 
     List<Persona> personasTemp = per;
-    
+
     personasTemp.forEach((e) {
-      //if (!profesiones.contains(e.profesion)) {
+      if (!profesiones.contains(e.profesion)) {
         profesiones.add(e.profesion);
-      //}
+      }
     });
 
     showDialog(
@@ -135,6 +134,14 @@ class _FiltroPageState extends State<FiltroPage> {
             ),
             actions: <Widget>[
               MaterialButton(
+                  child: Text('Cancelar'),
+                  elevation: 5,
+                  color: Colors.orangeAccent[700],
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    Navigator.pop(context);
+                  }),
+              MaterialButton(
                   child: Text('Ok'),
                   elevation: 5,
                   color: Colors.orangeAccent[700],
@@ -165,131 +172,129 @@ class _FiltroPageState extends State<FiltroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Lista de Trabajadores',
-            style: Theme.of(context).appBarTheme.textTheme.headline5,
-          ),
+      appBar: AppBar(
+        title: Text(
+          'Lista de Trabajadores',
+          style: Theme.of(context).appBarTheme.textTheme.headline5,
         ),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormField(
-                        controller: mySeachController,
-                        decoration: InputDecoration(
-                            hintText: 'Buscar servicios..',
-                            suffixIcon: IconButton(
-                                icon: Icon(Icons.search),
-                                onPressed: () {
-                                  print('iconb');
-                                  // print(mySeachController.text);
-                                  FocusScope.of(context).unfocus();
-                                  if (mySeachController.text == '') {
-                                    getAll();
-                                  } else {
-                                    getFiltroProfesion(mySeachController.text);
-                                  }
-                                })),
-                      ),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: TextFormField(
+                      controller: mySeachController,
+                      decoration: InputDecoration(
+                          hintText: 'Buscar servicios..',
+                          suffixIcon: IconButton(
+                              icon: Icon(Icons.search),
+                              onPressed: () {
+                                print('iconb');
+                                // print(mySeachController.text);
+                                FocusScope.of(context).unfocus();
+                                if (mySeachController.text == '') {
+                                  getAll();
+                                } else {
+                                  getFiltroProfesion(mySeachController.text.trim());
+                                }
+                              })),
                     ),
                   ),
-                  IconButton(
-                      icon: Icon(
-                        Icons.filter_list,
-                        //color: Colors.blue[800],
-                        color: theme().primaryColor,
+                ),
+                IconButton(
+                    icon: Icon(
+                      Icons.filter_list,
+                      //color: Colors.blue[800],
+                      color: theme().primaryColor,
+                    ),
+                    onPressed: () {
+                      getAll();
+                      mostrarAlerta(
+                          context, 'Búsqueda:', 'Elegir datos', personas);
+                      //getAll();
+                    })
+              ],
+            ),
+            Flexible(
+              child: (personas.length == 0)
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Text(
+                        'No hay resultados..',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
                       ),
-                      onPressed: () {
-                        getAll();
-                        mostrarAlerta(
-                            context, 'Búsqueda:', 'Elegir datos', personas);
-                        //getAll();
-                      })
-                ],
-              ),
-              Flexible(
-                child: (personas.length == 0)
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Text(
-                          'No hay resultados..',
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: personas.length,
-                        itemBuilder: (context, i) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: hexColor('#bbbfc4'),
-                                  borderRadius: BorderRadius.circular(25),
+                    )
+                  : ListView.builder(
+                      itemCount: personas.length,
+                      itemBuilder: (context, i) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: hexColor('#bbbfc4').withOpacity(0.6),
+                                borderRadius: BorderRadius.circular(25),
 
-                                  // boxShadow: [
-                                  //   BoxShadow(
-                                  //     color: hexColor('#d1cbad'),
-                                  //     offset: Offset(1, 1),
-                                  //     blurRadius: 5
-                                  //   )
-                                  // ]
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     color: hexColor('#d1cbad'),
+                                //     offset: Offset(1, 1),
+                                //     blurRadius: 5
+                                //   )
+                                // ]
+                              ),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors
+                                      .primaries[i % Colors.primaries.length],
+                                  child: Text(
+                                    '${i + 1}',
+                                    style: TextStyle(color: Colors.white),
+                                  ), //${personas[i].id}
                                 ),
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundColor: Colors
-                                        .primaries[i % Colors.primaries.length],
-                                    child: Text(
-                                      '${i + 1}',
-                                      style: TextStyle(color: Colors.white),
-                                    ), //${personas[i].id}
-                                  ),
-                                  title: Text(
-                                    personas[i].nombre,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Dirección: ' +
-                                          personas[i].direccion),
-                                      Text('Teléfono: '
-                                          '${personas[i].telefono}'),
-                                      Text('Profesión: ' +
-                                          personas[i].profesion),
-                                      Text('Turno: ' + personas[i].turno),
-                                      Text('Calificación: '
-                                          '${personas[i].calificacion}'),
-                                      RatingBar(
-                                        rating:
-                                            personas[i].calificacion.toDouble(),
-                                        icon: Icon(
-                                          Icons.star,
-                                          size: 20,
-                                          color: Colors.grey,
-                                        ),
-                                        starCount: 5,
-                                        spacing: 5.0,
-                                        size: 20,
-                                        isIndicator: false,
-                                        allowHalfRating: true,
-                                        color: Colors.amber,
-                                      )
-                                    ],
-                                  ),
+                                title: Text(
+                                  personas[i].nombre,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Dirección: ' + personas[i].direccion),
+                                    Text('Teléfono: '
+                                        '${personas[i].telefono}'),
+                                    Text('Profesión: ' + personas[i].profesion),
+                                    Text('Turno: ' + personas[i].turno),
+                                    Text('Calificación: '
+                                        '${personas[i].calificacion}'),
+                                    buildEstrellas(personas[i].calificacion)
+                                  ],
                                 ),
                               ),
-                            )),
-              )
-            ],
-          ),
-        ));
+                            ),
+                          )),
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: theme().primaryColor,
+        onPressed: () {
+          print('FAB');
+          agregarDatos();
+        },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget buildEstrellas(int value) {
+    return Row(
+        children: List.generate(5, (index) {
+      return index < value ? Icon(Icons.star, color: Colors.amber,) : Icon(Icons.star_border);
+    }));
   }
 }
