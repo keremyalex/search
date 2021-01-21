@@ -26,56 +26,54 @@ class _PersonaPageState extends State<PersonaPage> {
               })
         ],
       ),
-      // body: Center(
-      //     //child: InfoPerson(nombres: _nombres, profesion: _profesion, valoracion: _valoracion),
-      //     child: FutureBuilder(
-      //         future: dbmanager.getTodasPersonas(),
-      //         builder: (context, AsyncSnapshot<List<Persona>> snapshot) {
-      //           if (snapshot.hasData) {
-      //             final personas = snapshot.data;
-      //             //print(personas[0].nombre);
-      //             return ListView.builder(
-      //                 itemCount: personas.length,
-      //                 itemBuilder: (context, i) => Dismissible(
-      //                       key: UniqueKey(),
-      //                       background: Container(color: Colors.red),
-      //                       child: ListTile(
-      //                         leading: CircleAvatar(
-      //                           backgroundColor: Colors
-      //                               .primaries[i % Colors.primaries.length],
-      //                           child: Text(
-      //                             '${i + 1}',
-      //                             style: TextStyle(color: Colors.white),
-      //                           ), //${personas[i].id}
-      //                         ),
-      //                         title: Text(
-      //                           personas[i].nombre,
-      //                           style: TextStyle(fontWeight: FontWeight.bold),
-      //                         ),
-      //                         subtitle: Column(
-      //                           crossAxisAlignment: CrossAxisAlignment.start,
-      //                           children: [
-      //                             Text('Dirección: ' + personas[i].direccion),
-      //                             Text('Teléfono: ' '${personas[i].telefono}'),
-      //                             Text('Profesión: ' + personas[i].profesion),
-      //                             Text('Turno: ' + personas[i].turno),
-      //                             Text('Calificación: '
-      //                                 '${personas[i].calificacion}'),
-      //                           ],
-      //                         ),
-      //                         trailing: Padding(
-      //                           padding: EdgeInsets.only(top: 10),
-      //                           child: Icon(
-      //                             Icons.keyboard_arrow_right,
-      //                             color: Colors.black,
-      //                           ),
-      //                         ),
-      //                       ),
-      //                     ));
-      //           } else {
-      //             return Text('Hola Future');
-      //           }
-      //         })),
+      body: FutureBuilder(
+          future: dbmanager.getTodasPersonas(),
+          builder: (context, AsyncSnapshot<List<Persona>> snapshot) {
+            if (snapshot.hasData) {
+              final personas = snapshot.data;
+              //print(personas[0].nombre);
+              return ListView.builder(
+                  itemCount: personas.length,
+                  itemBuilder: (context, i) => Dismissible(
+                        key: UniqueKey(),
+                        background: Container(color: Colors.red),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors
+                                .primaries[i % Colors.primaries.length],
+                            child: Text(
+                              '${i + 1}',
+                              style: TextStyle(color: Colors.white),
+                            ), //${personas[i].id}
+                          ),
+                          title: Text(
+                            personas[i].nombre,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Dirección: ' + personas[i].direccion),
+                              Text('Teléfono: ' '${personas[i].telefono}'),
+                              Text('Profesión: ' + personas[i].profesion),
+                              Text('Turno: ' + personas[i].turno),
+                              Text('Calificación: '
+                                  '${personas[i].calificacion}'),
+                            ],
+                          ),
+                          trailing: Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Icon(
+                              Icons.keyboard_arrow_right,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ));
+            } else {
+              return Text('Hola Future');
+            }
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Persona persona = new Persona(

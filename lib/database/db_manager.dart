@@ -51,10 +51,27 @@ class DbManager {
     return list;
   }
 
-  Future<List<Persona>> getFiltro() async {
+  // Future<List<Persona>> getFiltro() async {
+  //   final db = await database;
+  //   final consulta = 'SELECT * FROM persona WHERE turno =?';
+  //   final res = await db.rawQuery(consulta, ['tarde']);
+  //   List<Persona> list =
+  //       res.isNotEmpty ? res.map((c) => Persona.fromJson(c)).toList() : [];
+  //   return list;
+  // }
+  Future<List<Persona>> getFiltroProfesion(String prof) async {
     final db = await database;
-    final consulta = 'SELECT * FROM persona WHERE turno =?';
-    final res = await db.rawQuery(consulta, ['tarde']);
+    final consulta = 'SELECT * FROM persona WHERE profesion =?';
+    final res = await db.rawQuery(consulta, [prof]);
+    List<Persona> list =
+        res.isNotEmpty ? res.map((c) => Persona.fromJson(c)).toList() : [];
+    return list;
+  }
+
+  Future<List<Persona>> getFiltro(String prof, int calif, String turn) async {
+    final db = await database;
+    final consulta = 'SELECT * FROM persona WHERE profesion =? and calificacion =? and turno =?';
+    final res = await db.rawQuery(consulta, [prof, calif, turn]);
     List<Persona> list =
         res.isNotEmpty ? res.map((c) => Persona.fromJson(c)).toList() : [];
     return list;

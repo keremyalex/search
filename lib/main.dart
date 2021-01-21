@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: theme(),
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      initialRoute: 'PersonaPage',
+      initialRoute: 'FiltroPage',
       routes: routes,
     );
   }

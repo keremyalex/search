@@ -74,26 +74,26 @@ class _SearchPageState extends State<SearchPage> {
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: ChipsChoice<String>.multiple(
+              child: ChipsChoice<int>.single(
                 choiceStyle: C2ChoiceStyle(
                   //padding: EdgeInsets.symmetric(horizontal: 20),
                   borderColor: Colors.red,
                   labelStyle: TextStyle(fontWeight: FontWeight.bold)
                 ),
-                value: tags,
-                onChanged: (val) => setState(() => tags = val),
-                choiceItems: C2Choice.listFrom<String, String>(
+                value: tag,
+                onChanged: (val) => setState(() => tag = val),
+                choiceItems: C2Choice.listFrom<int, String>(
                   source: options,
-                  value: (i, v) => v,
+                  value: (i, v) => i,
                   label: (i, v) => v,
-                ),
+    ),
               ),
             ),
           ),
         ),
         RaisedButton(
           onPressed: () {
-            print(tags);
+            print(options[tag]);
           },
           child: Text('Mostrar Datos'),
         )
